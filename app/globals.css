@@ -1,8 +1,20 @@
+
 @import "tailwindcss";
 
+/* Midnight Tech — light theme by default */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: light;
+
+  --background: #f7f8fc;
+  --foreground: #171a2b;
+  --surface: #eef0fa;
+  --muted: #626982;
+  --border: #dce0ef;
+
+  --accent: #5855db;
+  --accent-hover: #4642c4;
+  --pink: #d94f91;
+  --card-shadow: 0 12px 35px rgba(35, 39, 85, 0.06);
 }
 
 @theme inline {
@@ -12,15 +24,63 @@
   --font-mono: var(--font-geist-mono);
 }
 
+/* Automatically use dark colors when the device prefers dark mode */
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    color-scheme: dark;
+
+    --background: #0b1020;
+    --foreground: #edf0ff;
+    --surface: #131b30;
+    --muted: #a0a9c4;
+    --border: #29334d;
+
+    --accent: #9290ff;
+    --accent-hover: #b0adff;
+    --pink: #ff91c5;
+    --card-shadow: 0 12px 35px rgba(0, 0, 0, 0.16);
   }
 }
 
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 2rem;
+}
+
 body {
+  margin: 0;
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  transition: background-color 180ms ease, color 180ms ease;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+::selection {
+  background: var(--accent);
+  color: white;
+}
+
+:focus-visible {
+  outline: 2px solid var(--pink);
+  outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
 }

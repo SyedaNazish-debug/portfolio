@@ -1,5 +1,7 @@
-import { Mic2, Music2, BookOpen, PenLine } from "lucide-react";
-import { Manrope } from "next/font/google";
+"use client";
+
+import { useEffect, useState } from "react";
+import { Mic2, Music2, BookOpen, PenLine, Menu, X } from "lucide-react";
 
 const projects = [
   {
@@ -53,36 +55,104 @@ const focusAreas = [
 ];
 
 export default function Home() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const closeMobileMenu = () => setMobileMenuOpen(false);
+
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        closeMobileMenu();
+      }
+    };
+
+    window.addEventListener("keydown", handleEscape);
+
+    return () => {
+      window.removeEventListener("keydown", handleEscape);
+    };
+  }, [mobileMenuOpen]);
+
   return (
     <main className="min-h-screen bg-background text-foreground">
-      <header className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-6 sm:px-10">
-        <a href="#home" className="text-lg font-bold tracking-tight">
-          Me
-          <span className="text-[var(--accent)]">.</span>
+      <header className="relative z-50 mx-auto flex w-full max-w-6xl items-center justify-between px-5 py-4 sm:px-10 sm:py-6">
+        <a
+          href="#home"
+          onClick={closeMobileMenu}
+          className="text-lg font-bold tracking-tight"
+        >
+          Me<span className="text-[var(--accent)]">.</span>
         </a>
-
+        {/* Desktop navigation */}
         <nav
           aria-label="Main navigation"
-          className="flex items-center gap-5 text-sm sm:gap-8"
+          className="hidden items-center gap-5 text-sm md:flex lg:gap-8"
         >
-          <a className="transition-opacity hover:opacity-65" href="#personal">
+          <a href="#personal" className="transition-opacity hover:opacity-65">
             Personal
           </a>
-          <a className="transition-opacity hover:opacity-65" href="#projects">
+          <a href="#projects" className="transition-opacity hover:opacity-65">
             Projects
           </a>
-          <a className="transition-opacity hover:opacity-65" href="#about">
+          <a href="#about" className="transition-opacity hover:opacity-65">
             About
           </a>
-          <a className="transition-opacity hover:opacity-65" href="#experience">
+          <a href="#experience" className="transition-opacity hover:opacity-65">
             Experience
           </a>
           <a
-            className="rounded-full border border-[var(--border)] px-4 py-2 transition-colors hover:bg-[var(--surface)]"
             href="#contact"
+            className="rounded-full border border-[var(--border)] px-4 py-2 transition-colors hover:bg-[var(--surface)]"
           >
             Contact
           </a>
+        </nav>
+
+        {/* Mobile menu button */}
+        <button
+          type="button"
+          className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-xl border border-[var(--border)] bg-[var(--surface)] md:hidden"
+          aria-label={
+            mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"
+          }
+          aria-expanded={mobileMenuOpen}
+          aria-controls="mobile-navigation"
+          onClick={() => setMobileMenuOpen((open) => !open)}
+        >
+          {mobileMenuOpen ? (
+            <X size={21} aria-hidden="true" />
+          ) : (
+            <Menu size={21} aria-hidden="true" />
+          )}
+        </button>
+
+        {/* Mobile navigation */}
+        <nav
+          id="mobile-navigation"
+          aria-label="Mobile navigation"
+          aria-hidden={!mobileMenuOpen}
+          className={`absolute left-4 right-4 top-[calc(100%-0.25rem)] flex-col gap-1 rounded-2xl border border-[var(--border)] bg-[var(--background)] p-3 shadow-xl md:hidden ${
+            mobileMenuOpen ? "flex" : "hidden"
+          }`}
+        >
+          {[
+            ["Personal", "#personal"],
+            ["Projects", "#projects"],
+            ["About", "#about"],
+            ["Experience", "#experience"],
+            ["Contact", "#contact"],
+          ].map(([label, href]) => (
+            <a
+              key={href}
+              href={href}
+              onClick={closeMobileMenu}
+              className="rounded-xl px-4 py-3 text-sm font-medium transition-colors hover:bg-[var(--surface)] focus-visible:bg-[var(--surface)]"
+            >
+              {label}
+            </a>
+          ))}
         </nav>
       </header>
       <section

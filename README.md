@@ -61,7 +61,32 @@ Follow these steps to run the portfolio locally.
 2. Navigate to the project directory:
 
    ```bash
-   cd <YOUR_PROJECT_DIRECTORY>
+   cd <C:\Syeda_Nazish\portfolio>
+   ```
+   ```
+   │
+
+   ├── app/
+
+   ├── public/
+
+   ├── node_modules/
+
+   ├── .next/
+
+   ├── AGENTS.md
+
+   ├── package.json
+
+   ├── package-lock.json
+
+   ├── README.md
+
+   ├── next.config.ts
+
+   ├── tsconfig.json
+
+   └── .gitignore>
    ```
 
 3. Install the dependencies:
